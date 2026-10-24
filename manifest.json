@@ -1,0 +1,19 @@
+{
+  "name": "FAST CONTROL",
+  "short_name": "FAST CONTROL",
+  "description": "Sistema de monitoramento do processo industrial",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#edf2f7",
+  "theme_color": "#102b46",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
