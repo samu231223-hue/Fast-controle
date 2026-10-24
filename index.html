@@ -1,148 +1,332 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#123b2b">
-  <title>FAST CONTROL</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f1f5f3;
-  color: #18352a;
-}
-
-header {
-  background: #123b2b;
-  color: white;
-  padding: 25px 18px;
-  text-align: center;
-}
-
-header h1 {
-  margin: 0;
-  font-size: 26px;
-}
-
-header p {
-  margin: 8px 0 0;
-  color: #d4e8dc;
-  font-size: 14px;
-}
-
-main {
-  padding: 18px;
-  max-width: 600px;
-  margin: auto;
-}
-
-.status {
-  background: white;
-  border-radius: 12px;
-  padding: 18px;
-  margin-bottom: 18px;
-  box-shadow: 0 2px 8px #0000000d;
-}
-
-.status h2 {
-  margin-top: 0;
-  font-size: 18px;
-}
-
-.menu {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.item {
-  background: white;
-  border-radius: 12px;
-  padding: 20px 12px;
-  text-align: center;
-  box-shadow: 0 2px 8px #0000000d;
-  border: 1px solid #dce7e0;
-}
-
-.icon {
-  font-size: 30px;
-  display: block;
-  margin-bottom: 10px;
-}
-
-.item strong {
-  font-size: 15px;
-  display: block;
-}
-
-.item small {
-  display: block;
-  color: #617168;
-  margin-top: 6px;
-  font-size: 12px;
-}
-
-footer {
-  text-align: center;
-  padding: 25px 10px;
-  font-size: 12px;
-  color: #617168;
-}
-
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#102b46">
+<title>FAST CONTROL</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#edf2f7;color:#172b3c}
+header{background:#102b46;color:white;text-align:center;padding:20px 12px}
+header h1{margin:0;font-size:27px}
+header p{margin:8px 0 0}
+nav{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px}
+button{border:0;border-radius:8px;padding:13px;font-weight:bold;font-size:14px;cursor:pointer}
+nav button{background:#164d75;color:white}
+nav button.active{background:#16865b}
+main{padding:0 12px 25px;max-width:700px;margin:auto}
+.card{background:white;border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 2px 7px #0001}
+h2{font-size:20px;margin-top:0;color:#164d75}
+label{display:block;font-weight:bold;margin-top:12px;font-size:14px}
+input,select,textarea{width:100%;padding:12px;margin-top:5px;border:1px solid #bbc8d4;border-radius:7px;font-size:16px;background:white}
+textarea{min-height:65px}
+.panel{display:none}
+.panel.active{display:block}
+.save{width:100%;margin-top:18px;background:#16865b;color:white;font-size:16px}
+.secondary{background:#164d75;color:white;width:100%;margin-top:10px}
+.danger{background:#a52b2b;color:white;margin-top:8px}
+.result{padding:12px;background:#e4f5eb;border-radius:8px;margin-top:12px;line-height:1.6}
+.item{border:1px solid #d6e0e8;padding:12px;border-radius:8px;margin:10px 0;overflow-wrap:anywhere}
+.small{font-size:13px;color:#536879}
+footer{text-align:center;padding:20px;font-size:12px;color:#536879}
+</style>
 </head>
 <body>
-  <header>
-    <h1>FAST CONTROL</h1>
-    <p>Monitoramento do processo industrial</p>
-  </header>  <main>
-    <section class="status">
-      <h2>🏭 Painel de controle</h2>
-      <p>Bem-vindo ao sistema de acompanhamento operacional.</p>
-      <p><strong>Meta de produção:</strong> 150 bateladas por turno.</p>
-      <p><strong>Turno:</strong> 07h às 19h.</p>
-    </section><section class="menu">
-  <div class="item">
-    <span class="icon">📊</span>
-    <strong>Coletas e análises</strong>
-    <small>Júpiter e Saturno</small>
-  </div>
 
-  <div class="item">
-    <span class="icon">🧪</span>
-    <strong>Centrifugação</strong>
-    <small>Material de entrada dos Júpiter</small>
-  </div>
+<header>
+<h1>FAST CONTROL</h1>
+<p>Monitoramento do processo industrial</p>
+<p>Turno: 07h às 19h | Meta: 150 bateladas</p>
+</header>
 
-  <div class="item">
-    <span class="icon">💧</span>
-    <strong>Efluente</strong>
-    <small>Meta até 0,80</small>
-  </div>
+<nav>
+<button class="active" onclick="abrir('coletas',this)">📊 Coletas e análises</button>
+<button onclick="abrir('centrifugacao',this)">🧪 Centrifugação</button>
+<button onclick="abrir('efluente',this)">💧 Efluente</button>
+<button onclick="abrir('higiene',this)">🧼 Higienização</button>
+<button onclick="abrir('bateladas',this)">⚙️ Bateladas</button>
+<button onclick="abrir('historico',this)">📈 Histórico</button>
+</nav>
 
-  <div class="item">
-    <span class="icon">🧼</span>
-    <strong>Higienização</strong>
-    <small>Temperatura e rotação</small>
-  </div>
+<main>
 
-  <div class="item">
-    <span class="icon">⚙️</span>
-    <strong>Bateladas</strong>
-    <small>Produção e previsão de fechamento</small>
-  </div>
-
-  <div class="item">
-    <span class="icon">📈</span>
-    <strong>Histórico</strong>
-    <small>Resultados e relatórios</small>
-  </div>
+<section id="coletas" class="panel active">
+<div class="card">
+<h2>Coletas e análises</h2>
+<form id="formColetas">
+<label>Data</label><input type="date" name="data" required>
+<label>Horário da coleta</label>
+<select name="horario"><option>08:00</option><option>10:00</option><option>14:00</option></select>
+<label>Equipamento</label>
+<select name="equipamento">
+<option>Júpiter 1</option><option>Júpiter 2</option>
+<option>Júpiter 3</option><option>Júpiter 4</option>
+<option>Júpiter 5</option><option>Júpiter do reprocesso</option>
+<option>Saturno 1</option><option>Saturno 2</option>
+</select>
+<label>Óleo na borra (%)</label><input type="number" name="oleo" min="0" max="100" step="0.01" required>
+<label>RPM</label><input type="number" name="rpm" min="0" required>
+<label>Temperatura (°C)</label><input type="number" name="temperatura" step="0.1" required>
+<label>Vazão da bomba (%)</label><input type="number" name="vazao" min="0" max="100" required>
+<label>Observações</label><textarea name="obs"></textarea>
+<button class="save">Salvar coleta</button>
+</form>
+</div>
 </section>
 
-  </main>  <footer>
-    FAST CONTROL · Sistema de acompanhamento industrial
-  </footer>
+<section id="centrifugacao" class="panel">
+<div class="card">
+<h2>Centrifugação da matéria-prima</h2>
+<form id="formCentrifugacao">
+<label>Data</label><input type="date" name="data" required>
+<label>Equipamento</label>
+<select name="equipamento">
+<option>Júpiter 1</option><option>Júpiter 2</option>
+<option>Júpiter 3</option><option>Júpiter 4</option>
+<option>Júpiter 5</option><option>Júpiter do reprocesso</option>
+</select>
+<label>Óleo (%)</label><input type="number" name="oleo" min="0" max="100" step="0.01" value="40" required>
+<label>Água (%)</label><input type="number" name="agua" min="0" max="100" step="0.01" value="30" required>
+<label>Borra (%)</label><input type="number" name="borra" min="0" max="100" step="0.01" value="30" required>
+<div id="soma" class="result">Total: 100%</div>
+<label>Observações</label><textarea name="obs"></textarea>
+<button class="save">Salvar centrifugação</button>
+</form>
+</div>
+</section>
+
+<section id="efluente" class="panel">
+<div class="card">
+<h2>Análise de efluente</h2>
+<p class="small">Padrão informado: resultado ≤ 0,80 está dentro do padrão.</p>
+<form id="formEfluente">
+<label>Data</label><input type="date" name="data" required>
+<label>Origem</label>
+<select name="equipamento">
+<option>Saturno 1</option><option>Saturno 2</option>
+<option>Júpiter do reprocesso</option><option>Outra origem</option>
+</select>
+<label>Número da coleta</label>
+<select name="coleta"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>
+<label>Horário</label><input type="time" name="horario" required>
+<label>Resultado</label><input type="number" name="resultado" min="0" step="0.01" required>
+<label>Observações</label><textarea name="obs"></textarea>
+<button class="save">Salvar análise</button>
+</form>
+</div>
+</section>
+
+<section id="higiene" class="panel">
+<div class="card">
+<h2>Higienização</h2>
+<form id="formHigiene">
+<label>Data</label><input type="date" name="data" required>
+<label>Equipamento</label>
+<select name="equipamento">
+<option>Júpiter 1</option><option>Júpiter 2</option>
+<option>Júpiter 3</option><option>Júpiter 4</option>
+<option>Júpiter 5</option><option>Júpiter do reprocesso</option>
+<option>Saturno 1</option><option>Saturno 2</option>
+</select>
+<label>Responsável</label><input name="responsavel" required>
+<label>Temperatura da água (°C)</label><input type="number" name="temperatura" step="0.1" required>
+<label>RPM</label><input type="number" name="rpm" required>
+<label>Status</label>
+<select name="status"><option>Concluída</option><option>Pendente</option><option>Com problema</option></select>
+<label>Observações</label><textarea name="obs"></textarea>
+<button class="save">Salvar higienização</button>
+</form>
+<p class="small">Faixas de referência informadas: água de 90 a 95 °C e RPM de 200 a 600. Confirme os procedimentos oficiais da empresa.</p>
+</div>
+</section>
+
+<section id="bateladas" class="panel">
+<div class="card">
+<h2>Controle de bateladas</h2>
+<form id="formBateladas">
+<label>Data do turno</label><input type="date" name="data" required>
+<label>Saldo recebido do turno anterior</label><input type="number" name="saldo" min="0" value="0" required>
+<label>Bateladas produzidas neste turno</label><input type="number" name="produzidas" min="0" value="0" required>
+<label>Horário da medição</label><input type="time" name="horario" required>
+<button class="save">Calcular e salvar</button>
+</form>
+<div id="projecao" class="result">Preencha os dados e calcule a projeção.</div>
+<p class="small">A projeção é estimativa baseada no ritmo médio de produção desde as 07h.</p>
+</div>
+</section>
+
+<section id="historico" class="panel">
+<div class="card">
+<h2>Histórico de registros</h2>
+<label>Filtrar por tipo</label>
+<select id="filtro" onchange="mostrarHistorico()">
+<option value="">Todos os registros</option>
+<option>Coletas e análises</option>
+<option>Centrifugação</option>
+<option>Efluente</option>
+<option>Higienização</option>
+<option>Bateladas</option>
+</select>
+<button class="secondary" onclick="exportar()">Exportar histórico CSV</button>
+<div id="lista"></div>
+<button class="danger" style="width:100%" onclick="apagarTudo()">Apagar todo o histórico</button>
+</div>
+</section>
+
+</main>
+<footer>FAST CONTROL · Controle operacional industrial</footer>
+
+<script>
+let registros=[];
+try{registros=JSON.parse(localStorage.getItem('fastcontrol_registros')||'[]')}catch(e){registros=[]}
+
+function hoje(){
+let d=new Date();
+return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+document.querySelectorAll('input[type="date"]').forEach(x=>x.value=hoje());
+
+function abrir(id,botao){
+document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
+botao.classList.add('active');
+if(id==='historico')mostrarHistorico();
+}
+
+function guardar(tipo,form,extra={}){
+let dados=Object.fromEntries(new FormData(form).entries());
+registros.unshift({
+id:Date.now(),tipo:tipo,...dados,...extra,
+salvoEm:new Date().toLocaleString('pt-BR')
+});
+try{
+localStorage.setItem('fastcontrol_registros',JSON.stringify(registros));
+}catch(e){
+alert('Não foi possível salvar. O armazenamento do navegador pode estar cheio.');
+return;
+}
+form.reset();
+form.querySelectorAll('input[type="date"]').forEach(x=>x.value=hoje());
+mostrarHistorico();
+alert('Registro salvo com sucesso!');
+}
+
+document.querySelectorAll('form').forEach(form=>{
+form.addEventListener('submit',function(e){
+e.preventDefault();
+
+if(form.id==='formColetas'){
+let d=Object.fromEntries(new FormData(form).entries());
+guardar('Coletas e análises',form,{
+avaliacao:Number(d.oleo)<2.5?'Abaixo de 2,5%':'Igual ou acima de 2,5%'
+});
+}
+
+if(form.id==='formCentrifugacao'){
+let d=Object.fromEntries(new FormData(form).entries());
+let total=Number(d.oleo)+Number(d.agua)+Number(d.borra);
+if(Math.abs(total-100)>0.01){
+alert('A soma de óleo, água e borra precisa ser 100%. Total atual: '+total+'%.');
+return;
+}
+guardar('Centrifugação',form,{total:total+'%'});
+}
+
+if(form.id==='formEfluente'){
+let d=Object.fromEntries(new FormData(form).entries());
+guardar('Efluente',form,{
+avaliacao:Number(d.resultado)<=0.8?'DENTRO DO PADRÃO':'FORA DO PADRÃO'
+});
+}
+
+if(form.id==='formHigiene'){
+let d=Object.fromEntries(new FormData(form).entries());
+let t=Number(d.temperatura),r=Number(d.rpm);
+guardar('Higienização',form,{
+avaliacao:(t>=90&&t<=95&&r>=200&&r<=600)
+?'Dentro das faixas de referência'
+:'Verificar temperatura e RPM'
+});
+}
+
+if(form.id==='formBateladas'){
+let d=Object.fromEntries(new FormData(form).entries());
+let saldo=Number(d.saldo),produzidas=Number(d.produzidas);
+let partes=d.horario.split(':').map(Number);
+let minuto=partes[0]*60+partes[1];
+let inicio=420,fim=1140;
+let decorrido=Math.max(0,Math.min(fim,minuto)-inicio);
+let restante=Math.max(0,fim-Math.max(inicio,minuto));
+let projecao=decorrido>0?Math.round(produzidas/decorrido*restante):0;
+let total=saldo+produzidas;
+let estimado=total+projecao;
+document.getElementById('projecao').innerHTML=
+'Total até agora: '+total+
+'<br>Projeção às 19h: '+estimado+' bateladas'+
+'<br>Meta de 150: '+(estimado>=150?'Meta projetada atingida':'Meta projetada não atingida');
+guardar('Bateladas',form,{totalAtual:total,projecao19h:estimado});
+}
+});
+});
+
+['oleo','agua','borra'].forEach(n=>{
+document.querySelector('#formCentrifugacao [name="'+n+'"]').addEventListener('input',()=>{
+let f=document.getElementById('formCentrifugacao');
+let soma=['oleo','agua','borra'].reduce((a,n)=>a+Number(f.elements[n].value||0),0);
+document.getElementById('soma').textContent='Total: '+soma.toFixed(2)+'%';
+});
+});
+
+function mostrarHistorico(){
+let lista=document.getElementById('lista');
+if(!lista)return;
+let filtro=document.getElementById('filtro').value;
+let dados=registros.filter(r=>!filtro||r.tipo===filtro);
+lista.innerHTML='';
+if(!dados.length){lista.innerHTML='<p>Nenhum registro encontrado.</p>';return;}
+dados.forEach(r=>{
+let div=document.createElement('div');
+div.className='item';
+let resumo=Object.entries(r)
+.filter(([k,v])=>!['id','tipo','obs','salvoEm'].includes(k)&&v!=='')
+.map(([k,v])=>k+': '+v).join(' | ');
+let titulo=document.createElement('strong');titulo.textContent=r.tipo;
+let data=document.createElement('p');data.className='small';data.textContent=r.salvoEm||'';
+let texto=document.createElement('p');texto.textContent=resumo;
+div.append(titulo,data,texto);
+if(r.obs){let o=document.createElement('p');o.textContent='Observações: '+r.obs;div.appendChild(o);}
+let b=document.createElement('button');b.className='danger';b.textContent='Excluir registro';
+b.onclick=()=>{
+if(confirm('Excluir este registro?')){
+registros=registros.filter(x=>x.id!==r.id);
+localStorage.setItem('fastcontrol_registros',JSON.stringify(registros));
+mostrarHistorico();
+}
+};
+div.appendChild(b);lista.appendChild(div);
+});
+}
+
+function apagarTudo(){
+if(confirm('Apagar todos os registros deste navegador?')){
+registros=[];
+localStorage.removeItem('fastcontrol_registros');
+mostrarHistorico();
+}
+}
+
+function exportar(){
+if(!registros.length){alert('Não há registros para exportar.');return;}
+let chaves=[...new Set(registros.flatMap(r=>Object.keys(r)))];
+let csv=[chaves.join(';'),...registros.map(r=>chaves.map(k=>'"'+String(r[k]??'').replace(/"/g,'""')+'"').join(';'))].join('\n');
+let link=document.createElement('a');
+link.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));
+link.download='fast-control-historico.csv';
+link.click();
+URL.revokeObjectURL(link.href);
+}
+</script>
 </body>
   </html>
