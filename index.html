@@ -421,8 +421,7 @@ if (r.tipo === 'Higienização') {
 saida.textContent = alertas.length
 ? 'PONTOS DE ATENÇÃO:\n' + alertas.join('\n')
 : 'Análise concluída. Nenhum desvio foi identificado pelos critérios configurados. Confira se todos os registros necessários foram realizados.';
- }
-
+ 
 function perguntarIA() {
   const campo = document.getElementById('perguntaIA');
   const resposta = document.getElementById('respostaIA');
