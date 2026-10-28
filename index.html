@@ -374,54 +374,76 @@ if ("serviceWorker" in navigator) {
 }
  </script>
  <script>
+
+ function analisarProcesso() {
+  const saida = document.getElementById('resultadoIA');
+  const dados = registros || [];
+
+  if (dados.length === 0) {
+    saida.textContent = 'Ainda não existem registros para analisar. Registre os dados do processo primeiro.';
+    return;
+  }
+
+  let efluentes = 0;
+  let efluentesFora = 0;
+  let borra = 0;
+  let borraFora = 0;
+  let higienizacoes = 0;
+  let higienizacoesFora = 0;
+
+  dados.forEach(r => {
+    if (r.tipo === 'Efluente' && r.resultado !== undefined && r.resultado !== '') {
+      const valor = Number(String(r.resultado).replace(',', '.'));
+      efluentes++;
+
+      if (Number.isFinite(valor) && valor > 0.80) {
+        efluentesFora++;
+      }
+    }
+
+    if (r.tipo === 'Coletas e análises' && r.oleo !== undefined && r.oleo !== '') {
+      const valorOleo = Number(String(r.oleo).replace(',', '.'));
+      borra++;
+
+      if (Number.isFinite(valorOleo) && valorOleo >= 2.5) {
+        borraFora++;
+      }
+    }
+
+    if (r.tipo === 'Higienização') {
+      const temTemperatura = r.temperatura !== undefined && r.temperatura !== '';
+      const temRpm = r.rpm !== undefined && r.rpm !== '';
+
+      if (temTemperatura || temRpm) {
+        higienizacoes++;
+        const temperatura = Number(String(r.temperatura).replace(',', '.'));
+        const rpm = Number(String(r.rpm).replace(',', '.'));
+
+        if (
+          (temTemperatura && (!Number.isFinite(temperatura) || temperatura < 90 || temperatura > 95)) ||
+          (temRpm && (!Number.isFinite(rpm) || rpm < 200 || rpm > 600))
+        ) {
+          higienizacoesFora++;
+        }
+      }
+    }
+  });
+
+  const totalDesvios = efluentesFora + borraFora + higienizacoesFora;
+
+  let resumo = 'RESUMO DO PROCESSO\n\n';
+  resumo += 'Registros no histórico: ' + dados.length + '\n\n';
+  resumo += 'Efluentes: ' + efluentes + '; fora do padrão: ' + efluentesFora + '\n';
+  resumo += 'Óleo na borra: ' + borra + '; iguais ou acima de 2,5%: ' + borraFora + '\n';
+  resumo += 'Higienizações: ' + higienizacoes + '; fora da faixa: ' + higienizacoesFora + '\n\n';
+
+  resumo += totalDesvios > 0
+    ? 'ATENÇÃO: foram identificados ' + totalDesvios + ' ponto(s) de atenção.'
+    : 'Nenhum desvio foi identificado nos parâmetros avaliados.';
+
+  saida.textContent = resumo;
+     } 
   
-function analisarProcesso() {
-const saida = document.getElementById('resultadoIA');
-const dados = registros;
-
-if (!dados || !dados.length) {
-saida.textContent = 'Ainda não existem registros para analisar. Registre os dados do processo primeiro.';
-return;
-}
-
-let alertas = [];
-
-dados.forEach(r => {
-if (r.tipo === 'Efluente') {
-const valor = Number(r.resultado);
-
-  if (valor > 0.80) {
-    alertas.push('Efluente fora do padrão: ' + valor);
-  }
-}
-
-if (r.tipo === 'Coletas e análises' && r.oleo !== undefined) {
-  const oleo = Number(r.oleo);
-
-  if (oleo >= 2.5) {
-    alertas.push('Óleo na borra igual ou acima da meta: ' + oleo + '%');
-  }
-}
-
-if (r.tipo === 'Higienização') {
-  const temperatura = Number(r.temperatura);
-  const rpm = Number(r.rpm);
-
-  if (temperatura < 90 || temperatura > 95) {
-    alertas.push('Verifique a temperatura da higienização: ' + temperatura + ' °C');
-  }
-
-  if (rpm < 200 || rpm > 600) {
-    alertas.push('Verifique a rotação da higienização: ' + rpm + ' RPM');
-  }
-}
-
-});
-
-saida.textContent = alertas.length
-? 'PONTOS DE ATENÇÃO:\n' + alertas.join('\n')
-: 'Análise concluída. Nenhum desvio foi identificado pelos critérios configurados. Confira se todos os registros necessários foram realizados.';
- 
 function perguntarIA() {
   const campo = document.getElementById('perguntaIA');
   const resposta = document.getElementById('respostaIA');
